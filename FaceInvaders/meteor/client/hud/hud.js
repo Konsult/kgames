@@ -7,6 +7,7 @@ function InfoOverlay (game) {
 
   var score = this.score = $("<div>");
   score.addClass("Score");
+  score.append($("<span class='Placeholder'>0</span>"));
   el.append(score);
 
   var lives = this.lives = $("<div>");
@@ -24,6 +25,8 @@ InfoOverlay.prototype.update = function (ms) {
   }
 
   var oldLives = this.lives.children(".Heart");
+  if (oldLives.length === 0)
+    this.lives[0].innerHTML = "Lives: ";
   var oldLifeCount = oldLives.length;
   for (var i = oldLifeCount; i < lifeCount; i++)
     this.lives.append($("<div class='Heart'>"));
