@@ -14,7 +14,7 @@ function Game (pel) {
 
   // Load External APIs
   this.apis = {};
-  var fb = this.apis.fb = new FacebookAPI("485761404769776");
+  var fb = this.apis.fb = new FacebookAPI(FB_APP_ID);
   fb.loadAsync();
 
   // App Size Constants

@@ -1,5 +1,4 @@
-function FacebookAPI (appID) {
-  this.appID = appID;
+function FacebookAPI () {
   this.loaded = false;
 
   // Events
@@ -24,8 +23,7 @@ FacebookAPI.prototype.loadAsync = function (callback) {
   var that = this;
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : that.appID,
-      // channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
+      appId      : FB_APP_ID,
       status     : true, // check login status
       cookie     : true, // enable cookies to allow the server to access the session
       xfbml      : true  // parse XFBML
@@ -48,11 +46,20 @@ FacebookAPI.prototype.loadAsync = function (callback) {
 };
 FacebookAPI.prototype.login = function () {
   if (this.status == "in") return;
-  FB.login();
+
+  var origin = window.location.origin;
+  Meteor.call("LoginServerSideFB", origin, function (e, r) {
+    if (typeof e != "undefined") {
+      console.log("Serverside Facebook Login Failed.");
+      return;
+    }
+    window.location = r.url;
+  });
 };
+
 FacebookAPI.prototype.statusChange = function (callback) {
   this.onStatusChange = callback;
-}
+};
 FacebookAPI.prototype.watchStatus = function () {
   var that = this;
   var callback = that.onStatusChange;
