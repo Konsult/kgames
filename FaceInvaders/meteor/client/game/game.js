@@ -117,35 +117,57 @@ Game.prototype.startNextLevel = function () {
   }
 
   var game = this;
-  var world = this.world;
-  var level = Levels[this.level++];
+  game.inplay = false;
 
-  var flybox = this.flybox;
+  var world = this.world;
+  var player = this.player;
+  var levelID = this.level++;
+
+  // Setup Level Start Text
+  var flybox = game.flybox;
   flybox.title.html("Level "+this.level);
   flybox.removeClass("in");
   flybox.removeClass("out");
-  setTimeout(function () {flybox.addClass("in");}, 0);
-  setTimeout(function () {flybox.addClass("out");}, 2000);
 
-  // Load friend list if needed
+  // Load Friends, if needed
   if (!game.apis.fb.friendIDs.length)
     this.apis.fb.getFriends();
 
-  game.inplay = false;
-  function start() {
-    if (game.inplay) return;
-    if (!game.apis.fb.friendIDs.length)
-      setTimeout(start,500);
+  function onlevelload (error, result) {
+    if (error) {
+      alert("Failed to load level. Please let us@konsu.lt know, thanks!");
+      return;
+    }
+    // "Sorry, it appears that you're not currently on the beta users list. Please let us@konsu.lt know if you want to get on the list, thanks!"
 
-    var ids = _.first(game.apis.fb.friendIDs, level.count);
-    var fleet = new Fleet(ids, game);
-    fleet.setFormation(level.formation);
-    fleet.setSpeed(level.speed);
-    fleet.id = "MainFleet";
-    world.enemies[fleet.id] = fleet;
-    game.inplay = true;
+    var level = result;
+    flybox.addClass("in");
+
+    function start() {
+      if (game.inplay) return;
+      if (!game.apis.fb.friendIDs.length) {
+        setTimeout(start,100);
+        return;
+      }
+      game.inplay = true;
+      game.loadLevel(level);
+      flybox.addClass("out");
+    };
+    setTimeout(start,2000);
   };
-  setTimeout(start,2000);
+
+  Meteor.call("GetLevel", player.id, levelID, onlevelload);
+};
+Game.prototype.loadLevel = function (level) {
+  var game = this;
+  var world = this.world;
+
+  var ids = _.first(game.apis.fb.friendIDs, level.count);
+  var fleet = new Fleet(ids, game);
+  fleet.setFormation(level.formation);
+  fleet.setSpeed(level.speed);
+  fleet.id = "MainFleet";
+  world.enemies[fleet.id] = fleet;
 };
 Game.prototype.collides = function (A, B) {
   var a = A.el; var b = B.el;

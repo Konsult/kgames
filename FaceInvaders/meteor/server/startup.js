@@ -1,9 +1,21 @@
 var FBAuths = new Meteor.Collection("FBAuths");
 var FBUsers = new Meteor.Collection("FBUsers");
+var BetaList = new Meteor.Collection("BetaList");
 
-Meteor.startup(function () {});
+Meteor.startup(function () {
+  for (i in BETA_LIST) {
+    var userID = BETA_LIST[i];
+    if (userIsOnBetaList(userID))
+      continue;
+    BetaList.insert({userID: userID});
+  }
+});
 
 Meteor.methods({
+  GetLevel: function (userID, levelID) {
+    return Levels[levelID];
+    // return userIsOnBetaList(userID) ? Levels[levelID] : null;
+  },
   LoginServerSideFB: function (origin) {
     // Login with Facebook via OAuth2
     var url = "https://www.facebook.com/dialog/oauth/?";
@@ -69,11 +81,21 @@ Meteor.methods({
         status: "authenticated"
       }
     });
+    console.log("Facebook authentication successful for user: "+user.name+" with id: "+user.id);
 
-    console.log("Facebook authentication successful for user: "+user.name);
-    return true;
+    // Check the Beta List
+    if (userIsOnBetaList(userID))
+      return true;
+    else {
+      console.log("However, "+user.name+" is not on the beta list! Oh noes, intruderz! lulz");
+      return false;
+    }
   }
 });
+
+function userIsOnBetaList(userID) {
+  return (BetaList.find({userID: userID}).count() != 0);
+};
 
 function getUserAccessToken (code, redirect) {
   var url = "https://graph.facebook.com/oauth/access_token?"
