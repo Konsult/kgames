@@ -130,9 +130,6 @@ Game.prototype.collides = function (A, B) {
 Game.prototype.gameOver = function () {
   this.inplay = false;
   this.winOrLose = "Lose";
-  var enemies = this.world.enemies;
-  for (var enemy in enemies)
-    enemies[enemy].state = "won";
 
   var game = this;
   this.endText = createEndGameText(this, "You&nbsp;", "Lose", function () {
