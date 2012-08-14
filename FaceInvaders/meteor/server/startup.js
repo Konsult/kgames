@@ -12,9 +12,12 @@ Meteor.startup(function () {
 });
 
 Meteor.methods({
+  IsBetaUser: function (userID) {
+    return userIsOnBetaList(userID);
+  },
   GetLevel: function (userID, levelID) {
+    // TODO: Consider disallowing here if they're not on the beta list a speedbump for unknown peeps.
     return Levels[levelID];
-    // return userIsOnBetaList(userID) ? Levels[levelID] : null;
   },
   LoginServerSideFB: function (origin) {
     // Login with Facebook via OAuth2

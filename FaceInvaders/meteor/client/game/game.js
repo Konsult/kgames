@@ -52,6 +52,9 @@ function Game (pel) {
       that.player.load();
       that.info.el.css("display", "");
       that.startNextLevel();
+
+      // Check if they're a beta user
+      that.checkBetaStatus();
     } else {
       that.balloon = new LoginBalloon(fb, that.world);
       that.world.enemies["LoginBalloon"] = that.balloon;
@@ -111,11 +114,6 @@ Game.prototype.render = function () {
   this.info.render();
 };
 Game.prototype.startNextLevel = function () {
-  if (this.level === Levels.length) {
-    this.gameWon();
-    return;
-  }
-
   var game = this;
   game.inplay = false;
 
@@ -138,7 +136,11 @@ Game.prototype.startNextLevel = function () {
       alert("Failed to load level. Please let us@konsu.lt know, thanks!");
       return;
     }
-    // "Sorry, it appears that you're not currently on the beta users list. Please let us@konsu.lt know if you want to get on the list, thanks!"
+    if (!result) {
+      console.log("No level returned from server, so let's just call it a day and let them win! :)");
+      game.gameWon();
+      return;
+    }
 
     var level = result;
     flybox.addClass("in");
@@ -168,6 +170,13 @@ Game.prototype.loadLevel = function (level) {
   fleet.setSpeed(level.speed);
   fleet.id = "MainFleet";
   world.enemies[fleet.id] = fleet;
+};
+Game.prototype.checkBetaStatus = function () {
+  var user = FB.getUserID();
+  Meteor.call("IsBetaUser", user, function (e, r) {
+    if (!e && !r)
+      alert("Sorry, it appears that you're not currently on the beta users list. Please let us@konsu.lt know if you want to get on the list, thanks!");
+  });
 };
 Game.prototype.collides = function (A, B) {
   var a = A.el; var b = B.el;
