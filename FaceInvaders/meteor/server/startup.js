@@ -13,7 +13,16 @@ Meteor.startup(function () {
 
 Meteor.methods({
   IsBetaUser: function (userID) {
-    return userIsOnBetaList(userID);
+    var onthelist = userIsOnBetaList(userID);
+
+    if (!onthelist) {
+      var user = FBUsers.findOne({userID:userID});
+      var msg = user ? user.name : "UNKNOWN";
+      msg += " with id="+userID+" is not on the beta list.";
+      console.log(msg);
+    }
+
+    return onthelist;
   },
   GetLevel: function (userID, levelID) {
     // TODO: Consider disallowing here if they're not on the beta list a speedbump for unknown peeps.
