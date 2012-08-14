@@ -3,7 +3,14 @@ function Game (pel) {
   this.score = 0;
   this.level = 0;
   this.inplay = false;
+
+  // These are initialized later.
   this.winOrLose = null;
+  this.endText = null;
+  this.flybox = null;
+  this.info = null;
+  this.effects = null;
+  this.balloon = null;
 
   // Load External APIs
   this.apis = {};
@@ -76,6 +83,28 @@ Game.prototype.update = function (ms) {
   this.world.update(ms);
   this.info.update(ms);
 };
+Game.prototype.reset = function () {
+  // Reset enemies
+  var enemies = this.world.enemies;
+  for (var enemy in enemies)
+    enemies[enemy].el.remove();
+  this.world.enemies = {};
+
+  this.player.reset();
+
+  // Reset game state
+  this.score = 0;
+  this.level = 0;
+  this.inplay = false;
+  this.winOrLose = null;
+  this.el.removeClass("Lose");
+  if (this.endText) {
+    this.endText.remove();
+    this.endText = null;
+  }
+
+  this.inplay = true;
+}
 Game.prototype.render = function () {
   this.player.render();
   this.world.render();

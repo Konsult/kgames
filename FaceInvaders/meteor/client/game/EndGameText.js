@@ -36,8 +36,10 @@ function createEndGameText (game, leftText, rightText, animationCallback) {
   delay = queueAnimation(left, endGameTextAnimationDurations[state].Left, delay);
   delay = queueAnimation(right, endGameTextAnimationDurations[state].Right, delay);
 
+  var thatGame = game;
   if (state === "Lose") {
     var retry = $("<div class='Restart'>Retry?</div>");
+    retry.on("click", function () { thatGame.reset(); });
     container.append(retry);
     delay = queueAnimation(retry, endGameTextAnimationDurations[state].Restart, delay);
 

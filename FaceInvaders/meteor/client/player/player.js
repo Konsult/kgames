@@ -2,6 +2,7 @@ var regularPlayerWidth = 138;
 var regularPlayerHeight = 103;
 var birthdayPlayerWidth = 159;
 var birthdayPlayerHeight = 198;
+var maxLives = 5;
 
 function Player (game) {
   var world = this.world = game.world;
@@ -22,7 +23,7 @@ function Player (game) {
   this.x = this.tx = (this.world.w / 2 - this.w / 2);
   this.state = "alive";
   this.deadAt = null;
-  this.lives = 5;
+  this.lives = maxLives;
 
   // Shooting
   this.shotInterval = 1000;
@@ -78,6 +79,13 @@ Player.prototype.load = function () {
     }
   );
 };
+Player.prototype.reset = function () {
+  this.state = "alive";
+  this.deadAt = null;
+  this.lives = maxLives;
+  this.el.removeClass("dead");
+  this.el.css("display", "");
+}
 Player.prototype.update = function (ms) {
   if (this.x == this.tx)  {
     this.el.removeClass("Move");
