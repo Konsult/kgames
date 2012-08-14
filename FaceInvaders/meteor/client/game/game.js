@@ -3,6 +3,7 @@ function Game (pel) {
   this.score = 0;
   this.level = 0;
   this.inplay = false;
+  this.winOrLose = null;
 
   // Load External APIs
   this.apis = {};
@@ -126,6 +127,18 @@ Game.prototype.collides = function (A, B) {
         || top(a) > bottom(b)
         || bottom(a) < top(b));
 };
+Game.prototype.gameOver = function () {
+  this.inplay = false;
+  this.winOrLose = "Lose";
+  var enemies = this.world.enemies;
+  for (var enemy in enemies)
+    enemies[enemy].state = "won";
+
+  var game = this;
+  this.endText = createEndGameText(this, "You&nbsp;", "Lose", function () {
+    game.el.addClass("Lose");
+  });
+}
 
 function World (game) {
   this.game = game;

@@ -181,6 +181,7 @@ Player.prototype.die = function () {
   this.state = "dead";
   this.deadAt = now;
   this.el.addClass("dead");
+  this.game.gameOver();
 };
 Player.prototype.takeHit = function (thing) {
   var off = this.el.offset();

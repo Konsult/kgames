@@ -200,6 +200,7 @@ Fleet.prototype.takeHit = function(thing) {
 };
 Fleet.prototype.update = function(ms) {
   if (this.state == "dead") return;
+  if (this.state == "won") return;
 
   // If all our ships die, blow ourselves up
   if (this.numAlive == 0) {
