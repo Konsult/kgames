@@ -97,7 +97,7 @@ Game.prototype.reset = function () {
   this.level = 0;
   this.inplay = false;
   this.winOrLose = null;
-  this.el.removeClass("Lose");
+  this.el.removeClass("Lose Win");
   if (this.endText) {
     this.endText.remove();
     this.endText = null;
@@ -111,6 +111,11 @@ Game.prototype.render = function () {
   this.info.render();
 };
 Game.prototype.startNextLevel = function () {
+  if (this.level === Levels.length) {
+    this.gameWon();
+    return;
+  }
+
   var game = this;
   var world = this.world;
   var level = Levels[this.level++];
@@ -163,6 +168,44 @@ Game.prototype.gameOver = function () {
   var game = this;
   this.endText = createEndGameText(this, "You&nbsp;", "Lose", function () {
     game.el.addClass("Lose");
+  });
+}
+var fireworkInterval = 2000;
+var fireworkPositions = [
+  {top: 0.5, left: 0.15},
+  {top: 0.25, left: 0.25},
+  {top: 0.15, left: 0.50},
+  {top: 0.25, left: 0.75},
+  {top: 0.5, left: 0.85},
+]
+
+Game.prototype.gameWon = function () {
+  this.inplay = false;
+  this.winOrLose = "Win";
+
+  var that = this;
+  this.endText = createEndGameText(this, "You&nbsp;", "Win!", function () {
+    that.el.addClass("Win");
+
+    function createFirework () {
+      if (that.winOrLose !== "Win") {
+        clearInterval(fireworkIntervalID);
+        return;
+      }
+
+      var delay = 0;
+      var delayStep = fireworkInterval * 0.75 / fireworkPositions.length;
+      for(var i = 0; i < fireworkPositions.length; i++) {
+        var pos = fireworkPositions[i];
+        that.effects.createExplosionWithDelay(pos.left * that.world.w, pos.top * that.world.h, null, delay);
+        delay += delayStep;
+      }
+    }
+
+    createFirework();
+    var fireworkIntervalID = setInterval(createFirework, fireworkInterval);
+
+    // TODO: drop some bacon and eggs.
   });
 }
 
