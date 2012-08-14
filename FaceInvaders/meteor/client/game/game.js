@@ -22,6 +22,8 @@ function Game (pel) {
 
   // Create Game Console
   var info = this.info = new InfoOverlay(this);
+  // Don't show info overlay until game is initialized.
+  info.el.css("display", "none");
   var controls = this.controls = new Controls(this);
 
   // Create Flying Message Box
@@ -40,6 +42,7 @@ function Game (pel) {
       }
       that.balloon = null;
       that.player.load();
+      that.info.el.css("display", "");
       that.startNextLevel();
     } else {
       that.balloon = new LoginBalloon(fb, that.world);
