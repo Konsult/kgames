@@ -26,6 +26,9 @@ body {
 
   font-family: 'Architects Daughter', 'Comic Sans MS', sans-serif;
   color: white;
+
+  // Dirt color
+  background-color: #534741;
 }
 
 .SetArea {
@@ -432,19 +435,40 @@ body {
   bottom: 0px;
   width: 100%;
 
-  background-color: #00a652;
+  background-image: url('/images/underground.png');
+  background-position: top right;
+  background-repeat: repeat-x;
 }
 
 .ControlsPopover {
   .SetArea;
   box-sizing: content-box;
+  z-index: @z-popover;
+
+  max-width: 50%;
+}
+.ControlsPopover:not(.Right) {
   -webkit-border-image: url('/images/popover.png') 17 14 43 66 stretch;
   border-width: 17px 14px 43px 66px;
   padding-right: 52px;
   margin-left: -33px;
-  z-index: @z-popover;
+}
+.ControlsPopover.Right {
+  -webkit-border-image: url('/images/popover.png') 17 66 43 14 stretch;
+  border-width: 17px 66px 43px 14px;
+  padding-left: 52px;
+  margin-right: -33px;
+}
 
-  max-width: 50%;
+.BugButton {
+  .SetArea;
+  .Button;
+  bottom: 15px;
+  right: 30px;
+  width: 30px;
+  height: 30px;
+
+  background-image: url('/images/bug.png');
 }
 
 @toggleSelectionWidth: 57px;
@@ -453,7 +477,7 @@ body {
   .SetArea;
   overflow: visible;
 
-  top: 15px;
+  bottom: 10px;
   left: 20px;
   width: 2 * @toggleSelectionWidth;
   height: @toggleSelectionHeight;

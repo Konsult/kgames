@@ -263,7 +263,8 @@ function World (game) {
   this.bullets = {};
 
   var el = this.el = $("<div>").addClass("World").appendTo(game.el);
-  el.css("bottom", game.consoleHeight+"px");
+  // Add 1px to overlap images a little to prevent background color bleed.
+  el.css("bottom", game.consoleHeight - 1 +"px");
 
   // Update Size w.r.t. the Viewport
   var that = this;

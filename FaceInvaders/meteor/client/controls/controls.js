@@ -2,6 +2,7 @@ function Controls (game) {
   this.game = game;
   this.keyboard;
   this.mouse;
+  this.bug;
 
   var el = this.el = $("<div>");
   el.addClass("Controls");
@@ -79,8 +80,15 @@ function Controls (game) {
   };
   mouse.el.click(this, mouse.toggle);
 
-  new ControlsPopover(keyboard.el, "Left/right keys to move, space to shoot.");
-  new ControlsPopover(mouse.el, "Move mouse to move, click to shoot.");
+  var bug = this.bug = {
+    el: $("<div class='BugButton'>").appendTo(el).click(function (e) {
+      // Add bug-reporting UI & browser sniffing here.
+    })
+  };
+
+  new ControlsPopover(game, keyboard.el, "Left/right keys to move, space to shoot.");
+  new ControlsPopover(game, mouse.el, "Move mouse to move, click to shoot.");
+  new ControlsPopover(game, bug.el, "Report a bug.");
 
   // Turn 'em all on!
   keyboard.el.click();
@@ -107,9 +115,12 @@ function Controls (game) {
   });
 };
 
-function ControlsPopover (anchorElement, content) {
+function ControlsPopover (game, anchorElement, content) {
   this.anchor = anchorElement;
   this.el = $("<div class='ControlsPopover'>");
+  this.leftAlign = anchorElement.offset().left < $(window).width() / 2;
+  if (!this.leftAlign)
+    this.el.addClass("Right");
 
   if (content)
     this.el.append(content);
@@ -123,7 +134,8 @@ function ControlsPopover (anchorElement, content) {
     $("body").append(that.el);
     that.el.css({
       top: anchorOffset.top - that.el.outerHeight(true),
-      left: anchorOffset.left,
+      left: that.leftAlign ? anchorOffset.left : "",
+      right: !that.leftAlign ? game.el.innerWidth() - anchorOffset.left - anchorElement.width() : "",
     });
   }
   var eventsMap = {
