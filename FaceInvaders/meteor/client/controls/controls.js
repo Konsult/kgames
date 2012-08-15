@@ -82,8 +82,9 @@ function Controls (game) {
   new ControlsPopover(keyboard.el, "Left/right keys to move, space to shoot.");
   new ControlsPopover(mouse.el, "Move mouse to move, click to shoot.");
 
-  // By default, turn on keyboard, leave on touch permanently
+  // Turn 'em all on!
   keyboard.el.click();
+  mouse.el.click();
   $(document).bind("touchmove", this, function (e) {
     var game = e.data.game.player;
     player && player.goto(e.pageX);
