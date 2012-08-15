@@ -85,9 +85,25 @@ function Controls (game) {
   // Turn 'em all on!
   keyboard.el.click();
   mouse.el.click();
+
+  // Some Primitive-ass Touch Event Handlers
+  $(document).bind("touchstart", this, function (e) {
+    e.preventDefault();
+    var game = e.data.game;
+    game.lastTouchStart = (new Date()).getTime();
+  });
   $(document).bind("touchmove", this, function (e) {
-    var game = e.data.game.player;
-    player && player.goto(e.pageX);
+    e.preventDefault();
+    var player = e.data.game.player;
+    var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+    player && player.goto(touch.pageX);
+  });
+  $(document).bind("touchend", this, function (e) {
+    e.preventDefault();
+    var game = e.data.game;
+    var player = game.player;
+    var since = (new Date()).getTime() - game.lastTouchStart;
+    if (since < 500) player && player.fire();
   });
 };
 
