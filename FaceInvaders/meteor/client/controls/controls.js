@@ -113,6 +113,13 @@ function Controls (game) {
     var since = (new Date()).getTime() - game.lastTouchStart;
     if (since < 500) player && player.fire();
   });
+
+  // Universal game controls
+  $(document).bind("keypress", this, function (e) {
+    // Pressing p pauses the game
+    if (e.which == 112)
+      e.data.game.togglePause();
+  });
 };
 
 function ControlsPopover (game, anchorElement, content) {

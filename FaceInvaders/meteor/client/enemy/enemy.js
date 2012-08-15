@@ -7,6 +7,7 @@ var enemyClasses = ["tv", "nom", "cage"];
 function Enemy (id, game) {
   var world = this.world = game.world;
   this.game = game;
+  this.fireTimer = null;
 
   // Self State
   this.id = id;
@@ -96,6 +97,7 @@ Enemy.prototype.die = function () {
 };
 Enemy.prototype.fire = function () {
   if (this.state == "dead") return;
+  if (this.game.paused) return;
 
   this.el.addClass("Fire");
   var that = this;
@@ -258,7 +260,12 @@ Fleet.prototype.fire = function () {
   var that = this;
   var timeToFire = Math.random() * 250;
 
-  setTimeout(function () {
+  function fireWhenReady () {
+    // FIXME: Do a truer pause so you can't shorten the delay by pausing the game.
+    if (that.game.pause) {
+      that.fireTimer = setTimeout(fireWhenReady, timeToFire);
+      return;
+    }
     var num = that.numAlive * Math.random();
     num = Math.round(num-0.5) + 1;
 
@@ -269,7 +276,8 @@ Fleet.prototype.fire = function () {
       if (ship.state == "alive") num--;
       if (!num) { ship.fire(); return; }
     }
-  }, timeToFire);
+  }
+  this.fireTimer = setTimeout(fireWhenReady, timeToFire);
 };
 Fleet.prototype.render = function() {
   var now = this.game.time;

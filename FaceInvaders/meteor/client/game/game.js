@@ -3,6 +3,7 @@ function Game (pel) {
   this.score = 0;
   this.level = 0;
   this.inplay = false;
+  this.pause = false;
 
   // These are initialized later.
   this.winOrLose = null;
@@ -11,6 +12,7 @@ function Game (pel) {
   this.info = null;
   this.effects = null;
   this.balloon = null;
+  this.pauseOverlay = null;
 
   // Load External APIs
   this.apis = {};
@@ -79,6 +81,9 @@ Game.prototype.launch = function () {
   loop();
 };
 Game.prototype.update = function (ms) {
+  if (this.pause)
+    return;
+
   var changeLevel = this.inplay && !_.find(this.world.enemies, function () {return true;});
   changeLevel && this.startNextLevel();
 
@@ -86,6 +91,17 @@ Game.prototype.update = function (ms) {
   this.world.update(ms);
   this.info.update(ms);
 };
+Game.prototype.togglePause = function () {
+  if (!this.inplay)
+    return;
+  this.pause = !this.pause;
+
+  if (this.pause && !this.pauseOverlay) {
+    this.pauseOverlay = $("<div class='PauseOverlay'>Paused</div>");
+    this.world.el.append(this.pauseOverlay);
+  }
+  this.pauseOverlay.css("display", this.pause ? "block" : "none");
+}
 Game.prototype.reset = function () {
   // Reset enemies
   var enemies = this.world.enemies;
@@ -99,6 +115,7 @@ Game.prototype.reset = function () {
   this.score = 0;
   this.level = 0;
   this.inplay = false;
+  this.pause = false;
   this.winOrLose = null;
   this.el.removeClass("Lose Win");
   if (this.endText) {

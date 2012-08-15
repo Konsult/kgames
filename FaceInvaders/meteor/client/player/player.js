@@ -7,6 +7,7 @@ var maxLives = 5;
 function Player (game) {
   var world = this.world = game.world;
   this.game = game;
+  this.readyTimer = null;
 
   // User Data
   this.id = this.name = null;
@@ -123,6 +124,8 @@ Player.prototype.render = function () {
   }
 };
 Player.prototype.fire = function () {
+  if (this.game.pause)
+    return;
   var now = this.game.time;
 
   if (this.state != "alive") return;
@@ -142,10 +145,17 @@ Player.prototype.fire = function () {
   b.fireFrom(this.el, x, 0);
 
   var that = this;
-  setTimeout(function () {
+  function becomeReady () {
+    // FIXME: Do a truer pause so you can't shorten the delay by pausing the game.
+    if (that.game.pause) {
+      that.readyTimer = setTimeout(becomeReady, that.shotInterval);
+      return;
+    }
     that.readyToShoot = true;
     that.el.addClass("Ready");
-  }, this.shotInterval);
+    that.readyTimer = null;
+  }
+  this.readyTimer = setTimeout(becomeReady, this.shotInterval);
 };
 Player.prototype.goto = function (x) {
   this.tx = x - this.w / 2;
