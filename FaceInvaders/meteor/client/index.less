@@ -52,34 +52,7 @@ body {
   text-shadow: none;
 }
 
-@overlayHeight: 80px;
-@overlayOffset: 10px;
 
-@-webkit-keyframes sky-color {
-  0% {
-     background-color:skyblue;
-  }
-  15% {
-    background-color: skyblue;
-  }
-  25% {
-    background-color: #440022;
-  }
-  35% {
-    backgorund-color: black;
-  }
-  65% {
-    background-color: black;
-  }
-  75% {
-    background-color: #440022;
-  }
-  85% {
-    background-color: skyblue;
-  }
-  100% {
-    background-color: skyblue;
-  }
 }
 
 .LevelText {
@@ -238,6 +211,32 @@ body {
   }
 }
 
+@-webkit-keyframes sky-color {
+  0% {
+     background-color:skyblue;
+  }
+  15% {
+    background-color: skyblue;
+  }
+  25% {
+    background-color: #440022;
+  }
+  35% {
+    backgorund-color: black;
+  }
+  65% {
+    background-color: black;
+  }
+  75% {
+    background-color: #440022;
+  }
+  85% {
+    background-color: skyblue;
+  }
+  100% {
+    background-color: skyblue;
+  }
+}
 .World {
   .SetArea;
 
@@ -529,6 +528,9 @@ body {
   opacity: 1;
 }
 .InfoOverlay {
+  @overlayHeight: 80px;
+  @overlayOffset: 10px;
+
   .SetArea;
 
   top: @overlayOffset;
