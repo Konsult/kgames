@@ -32,9 +32,7 @@ function Player (game) {
   // Movement State
   this.moveType = "linear"; // Move via smooth linear motion
   this.speed = 200;         // 200px / second
-  this.stepLength = 100;    // 100px wide steps
-  this.lastStep = game.time; // Timestamp of last step
-  this.stepInterval = 250;  // in ms
+  this.stepLength = 35;     // 35px wide steps
 
   // DOM State
   this.el = $("<div>");
@@ -152,33 +150,22 @@ Player.prototype.fire = function () {
 Player.prototype.goto = function (x) {
   this.tx = x - this.w / 2;
 };
+Player.prototype.stop = function () {
+  this.tx = this.x;
+};
+Player.prototype.goLeft = function () {
+  this.tx = 0;
+};
+Player.prototype.goRight = function () {
+  this.tx = this.world.w - this.w;
+};
+// TODO: Currently unused
 Player.prototype.stepLeft = function () {
-  var now = this.game.time;
-
-  if (this.tx > this.x) {
-    this.tx = this.x;
-    return;
-  }
-
-  var since = now - this.lastStep;
-  if (since < this.stepInterval) return;
-  this.lastStep = now;
-
   var tx = this.tx - this.stepLength;
   this.tx = Math.max(tx, 0);
 };
+// TODO: Currently unused
 Player.prototype.stepRight = function () {
-  var now = this.game.time;
-
-  if (this.tx < this.x) {
-    this.tx = this.x;
-    return;
-  }
-
-  var since = now - this.lastStep;
-  if (since < this.stepInterval) return;
-  this.lastStep = now;
-
   var tx = this.tx + this.stepLength;
   var max = this.world.w - this.w;
   this.tx = Math.min(tx, max);

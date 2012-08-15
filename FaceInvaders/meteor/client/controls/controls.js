@@ -22,9 +22,17 @@ function Controls (game) {
       if (e.which == 32 && player)
         player.fire();
       if (e.which == 37 && player)
-        player.stepLeft();
+        player.goLeft();
       if (e.which == 39 && player)
-        player.stepRight();
+        player.goRight();
+    },
+    onkeyup: function (e) {
+      var player = e.data.game.player;
+
+      if (e.which == 37 && player)
+        player.stop();
+      if (e.which == 39 && player)
+        player.stop();
     },
     toggle: function (e) {
       var me = e.data.keyboard;
@@ -32,8 +40,13 @@ function Controls (game) {
       me.el.toggleClass("toggled");
 
       var doc = $(document);
-      if (on) doc.keydown(e.data, me.onkeydown);
-      else doc.off("keydown");
+      if (on) {
+        doc.keydown(e.data, me.onkeydown);
+        doc.keyup(e.data, me.onkeyup);
+      } else {
+        doc.off("keydown");
+        doc.off("keyup");
+      }
     }
   };
   keyboard.el.click(this, keyboard.toggle);
