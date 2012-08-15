@@ -60,7 +60,7 @@ function createEndGameText (game, leftText, rightText, animationCallback) {
     console.error("The game isn't over yet! Are you trying to trick me?");
   }
   
-  game.el.append(endText);
+  game.world.el.append(endText);
   var callbackFunction = animationCallback;
   setTimeout(function () {
     if (state === "Win") {
