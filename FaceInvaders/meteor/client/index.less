@@ -1,4 +1,5 @@
-@z-popover: 11;
+@z-popover: 12;
+@z-modal: 11;
 @z-foreground: 10;
 @z-pauseoverlay: 9;
 @z-levelText: 8;
@@ -42,6 +43,7 @@ body {
 .Button {
   -webkit-user-select: none;
   cursor: pointer;
+  text-align: center;
 }
 
 .BlueButton {
@@ -53,13 +55,18 @@ body {
   text-shadow: none;
 }
 
-.PauseOverlay {
+.Overlay {
   .SetArea;
   width: 100%;
   height: 100%;
-  z-index: @z-pauseoverlay;
 
   background-color: fade(black, 75%);
+  text-align: center;
+}
+
+.PauseOverlay {
+  .Overlay;
+  z-index: @z-pauseoverlay;
 
   box-sizing: border-box;
   padding-top: 25%;
@@ -68,6 +75,86 @@ body {
   text-align: center;
 
   content: "Paused";
+}
+
+.CustomInput {
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  font-family: 'Architects Daughter', 'Comic Sans MS', sans-serif;
+  background-color: transparent;
+
+  outline: none;
+
+  font-size: 18px;
+}
+
+input {
+  .CustomInput;
+  -webkit-border-image: url('/images/textfield.png') 11 13 11 16;
+  border-width: 11px 13px 11px 16px;
+}
+
+textarea {
+  .CustomInput;
+  -webkit-border-image: url('/images/textbox.png') 16 13 16 16;
+  border-width: 16px 13px 16px 16px;
+}
+
+.ModalDialog {
+  @buttonContainerHeight: 75px;
+
+  .SetArea;
+  position: relative;
+  min-width: 25%;
+  max-width: 600px;
+  min-height: 50%;
+  max-height: 75%;
+
+  z-index: @z-modal;
+
+  margin: 10% auto 0 auto;
+  font-size: 24px;
+  text-align: left;
+
+  box-sizing: border-box;
+  -webkit-border-image: url('/images/dialog.png') 25 16 25 16;
+  border-width: 25px 16px 25px 16px;
+
+  padding-bottom: @buttonContainerHeight;
+
+  div, input, textarea {
+    display: block;
+    width: 100%;
+
+    margin-bottom: 10px;
+  }
+
+  textarea {
+    // constrain webkit textarea resizing.
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .Label {
+    font-weight: bold;
+    margin-top: 1em;
+  }
+
+  .ButtonContainer {
+    .SetArea;
+    width: 100%;
+    bottom: 0;
+    height: @buttonContainerHeight;
+    text-align: right;
+    margin: 0;
+
+    .Button {
+      display: inline-block;
+      width: auto;
+      min-width: 100px;
+      margin-left: 10px;
+    }
+  }
 }
 
 .LevelText {

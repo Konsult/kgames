@@ -3,6 +3,7 @@ function Controls (game) {
   this.keyboard;
   this.mouse;
   this.bug;
+  this.showingBugDialog = false;
 
   var el = this.el = $("<div>");
   el.addClass("Controls");
@@ -82,8 +83,8 @@ function Controls (game) {
 
   var bug = this.bug = {
     el: $("<div class='BugButton'>").appendTo(el).click(function (e) {
-      // Add bug-reporting UI & browser sniffing here.
-    })
+      that.reportBug();
+    }),
   };
 
   new ControlsPopover(game, keyboard.el, "Left/right keys to move, space to shoot.");
@@ -121,6 +122,37 @@ function Controls (game) {
       e.data.game.togglePause();
   });
 };
+
+Controls.prototype.reportBug = function () {
+  if (this.showingBugDialog)
+    return;
+  if (!this.game.pause)
+    this.game.togglePause();
+
+  var that = this;
+
+  this.showingBugDialog = true;
+  var dialog = this.bugDialog = new ModalDialog(this.game.world.el, "Cancel", function () {
+    that.showingBugDialog = false;
+    that.game.togglePause();
+  });
+  dialog.addButton("Send", function () {
+    // TODO: Add browser info and server stuff here.
+    dialog.dismiss();
+  });
+
+  dialog.el.append($("<div class='Label'>What's the problem?</div>"));
+  var title = $("<input>").attr({
+    "placeholder": "e.g. Player doesn't move after shooting.",
+    "maxlength": 100}
+  );
+  dialog.el.append(title);
+
+  dialog.el.append($("<div class='Label'>What did you do right before encountering this problem?</div>"));
+  var repro = $("<textarea>").attr("placeholder", "e.g. I just started level 3, and pressed space to shoot the left-most enemy. I can always reproduce the problem following these steps.");
+  repro.css("min-height", "200px");
+  dialog.el.append(repro);
+}
 
 function ControlsPopover (game, anchorElement, content) {
   this.anchor = anchorElement;
