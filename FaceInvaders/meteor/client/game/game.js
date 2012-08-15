@@ -178,6 +178,7 @@ Game.prototype.checkBetaStatus = function () {
       alert("Sorry, it appears that you're not currently on the beta users list. Please let us@konsu.lt know if you want to get on the list, thanks!");
   });
 };
+// If A and B collide
 Game.prototype.collides = function (A, B) {
   var a = A.el; var b = B.el;
 
@@ -192,7 +193,23 @@ Game.prototype.collides = function (A, B) {
         || top(a) > bottom(b)
         || bottom(a) < top(b));
 };
+// If A contains B
+Game.prototype.contains = function (A, B) {
+  var a = A.el; var b = B.el;
+
+  // Currently assumes only DOM nodes' rects for collisions
+  function left (x) { return x.offset().left };
+  function right (x) { return left(x) + x.width(); };
+  function top (x) { return x.offset().top; };
+  function bottom (x) { return top(x) + x.height(); };
+
+  return (left(a) <= left(b)
+        && top(a) <= top(b)
+        && right(a) >= right(b)
+        && bottom(a) >= bottom(b));
+};
 Game.prototype.gameOver = function () {
+  if (!this.inplay) return;
   this.inplay = false;
   this.winOrLose = "Lose";
 

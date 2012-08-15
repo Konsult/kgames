@@ -59,7 +59,10 @@ Enemy.prototype.loadUser = function(ms) {
   );
 };
 Enemy.prototype.update = function(ms) {
-  // Nothing to really do by default...
+  var game = this.game;
+  if (!game.contains(this.world, this)) {
+    game.gameOver();
+  }
 };
 Enemy.prototype.render = function() {
   var now = this.game.time;
@@ -208,7 +211,7 @@ Fleet.prototype.update = function(ms) {
     return;
   }
 
-  // Clear out dead ships
+  // Clear Dead Ships
   _.each(this.ships, function (ship, id, ships) {
     if (ship.state == "dead") delete ships[id];
   });
@@ -220,6 +223,9 @@ Fleet.prototype.update = function(ms) {
     this.lastStep = now;
     this.step();
   }
+
+  // Update Remaining Ships
+  _.invoke(this.ships, "update", ms);
 
   // Fire when ready
   since = now - this.lastShot;
