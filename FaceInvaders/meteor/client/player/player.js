@@ -86,25 +86,20 @@ Player.prototype.reset = function () {
   this.el.css("display", "");
 }
 Player.prototype.update = function (ms) {
-  if (this.x == this.tx)  {
-    this.el.removeClass("Move");
-    return;
-  }
+  // HACK: Adjust target to keep player on screen after resize
+  var maxX = this.world.w - this.w;
+  if (this.tx > maxX) this.x = this.tx = maxX;
+  if (this.tx < 0) this.x = this.tx = 0;
 
+  // If we're currently at our target, stop moving!
+  if (this.x == this.tx) return;
+
+  // Otherwise, compute our new position
   var need = this.tx - this.x;
   var disp = this.speed * (ms / 1000);
   var perc = Math.abs(disp / need);
   perc = Math.min(perc, 1);
   this.x += perc * need;
-
-  // TODO: Move wheel rendering logic elsewhere
-  if (need > 0) {
-    this.el.css({"-webkit-transform": "rotateY(180deg)"});
-    this.el.addClass("Move");
-  } else {
-    this.el.css({"-webkit-transform": ""});
-    this.el.addClass("Move");
-  }
 };
 Player.prototype.render = function () {
   var now = this.game.time;
@@ -112,6 +107,17 @@ Player.prototype.render = function () {
   switch (this.state) {
     case "alive":
       this.el.css("left", this.x+"px");
+
+      // Animate moving in direction, if moving
+      if (this.x == this.tx)
+        this.el.removeClass("Move");
+      else if (this.x < this.tx) {
+        this.el.css({"-webkit-transform": "rotateY(180deg)"});
+        this.el.addClass("Move");
+      } else {
+        this.el.css({"-webkit-transform": ""});
+        this.el.addClass("Move");
+      }
       break;
     case "dead":
       var since = now - this.deadAt;
