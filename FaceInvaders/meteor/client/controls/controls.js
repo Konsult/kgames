@@ -14,6 +14,11 @@ function Controls (game) {
   toggle.addClass("Toggle");
   el.append(toggle);
 
+  // Prevent button clicks from triggering fire.
+  $(document).on("click", ".Button", function (e) {
+    e.stopPropagation();
+  });
+
   var that = this;
   var keyboard = this.keyboard = {
     on: false,

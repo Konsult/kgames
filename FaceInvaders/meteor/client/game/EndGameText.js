@@ -45,7 +45,7 @@ function createEndGameText (game, leftText, rightText, animationCallback) {
   delay = queueAnimation(left, endGameTextAnimationDurations[state].Left, delay);
   delay = queueAnimation(right, endGameTextAnimationDurations[state].Right, delay);
 
-  var restart = $("<div class='Restart'>");
+  var restart = $("<div class='Restart Button'>");
   var thatGame = game;
   restart.on("click", function () {thatGame.reset(); });
   container.append(restart);
