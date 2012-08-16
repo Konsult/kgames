@@ -1,7 +1,8 @@
+var maxEnemyColumns = 8;
+var maxEnemyRows = 4;
+var maxFleetToWorldRatio = { width: 1, height: 0.75 };
 var enemyWidth = 150;
 var enemyHeight = 150;
-var enemyHSpacing = 50;
-var enemyVSpacing = 5;
 var enemyClasses = ["tv", "nom", "cage"];
 
 function Enemy (id, game) {
@@ -171,9 +172,11 @@ Fleet.prototype.setFormation = function(formation) {
   switch (formation.type) {
     case "rows":
       var perrow = formation.perrow;
-      this.w = (enemyWidth + enemyHSpacing) * perrow - enemyHSpacing;
-      var rows = Math.round(this.numAlive / perrow + 0.5);
-      this.h = (enemyHeight + enemyVSpacing) *  rows - enemyVSpacing;
+      var colWidth = maxFleetToWorldRatio.width * this.world.w / maxEnemyColumns;
+      this.w = colWidth * perrow;
+      var rows = Math.ceil(this.numAlive / perrow);
+      var rowHeight = maxFleetToWorldRatio.height * this.world.h / maxEnemyRows;
+      this.h = rowHeight *  rows;
       this.setSize(this.w, this.h);
 
       var that = this;
@@ -181,11 +184,11 @@ Fleet.prototype.setFormation = function(formation) {
       _.each(this.ships, function (ship) {
 
         ship.moveTo(x, y);
-        if (x + ship.w > that.w - enemyHSpacing) {
-          y += enemyHeight + enemyVSpacing;
+        if (x + ship.w > that.w - colWidth) {
+          y += rowHeight;
           x = 0;
         } else {
-          x += enemyWidth + enemyHSpacing;
+          x += colWidth;
         }
       });
     break;
