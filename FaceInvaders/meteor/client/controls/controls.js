@@ -14,10 +14,30 @@ function Controls (game) {
   toggle.addClass("Toggle");
   el.append(toggle);
 
-  // Prevent button clicks from triggering fire.
-  $(document).on("click", ".Button", function (e) {
-    e.stopPropagation();
-  });
+  // Make button clicks work on touch and prevent them from triggering fire.
+  $(document).on({
+    click: function (e) {
+      e.stopPropagation();
+    },
+    touchstart: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    touchend: function(e) {
+      // FIXME: Touches that did not end on their original element should not trigger click behavior.
+      $(e.currentTarget).trigger("click", e.data);
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    touchmove: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    touchcancel: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+  }, ".Button");
 
   var that = this;
   var keyboard = this.keyboard = {
@@ -185,7 +205,9 @@ function ControlsPopover (game, anchorElement, content) {
   var eventsMap = {
     mouseover: show,
     mouseout: hide,
-    touchdown: show,
+    touchstart: show,
+    touchenter: show,
+    touchexit: hide,
     touchend: hide,
     touchcancel: hide,
   };
