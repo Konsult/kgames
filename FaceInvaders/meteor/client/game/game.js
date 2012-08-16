@@ -197,7 +197,19 @@ Game.prototype.loadLevel = function (level) {
   var game = this;
   var world = this.world;
 
-  var ids = _.first(game.apis.fb.friendIDs, level.count);
+  // Creates an n-length list of random items from list
+  function randomN(list, n) {
+    var random = [];
+    var len = list.length;
+    for (var i = 0; i < n; i++) {
+      var x = Math.random() * len - 0.5;
+      x = Math.max(0, Math.min(x, len-1));
+      x = Math.round(x);
+      random.push(list[x]);
+    }
+    return random;
+  };
+  var ids = randomN(game.apis.fb.friendIDs, level.count);
   var fleet = new Fleet(ids, game);
   fleet.setFormation(level.formation);
   fleet.setSpeed(level.speed);
