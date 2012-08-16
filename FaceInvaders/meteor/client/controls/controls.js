@@ -87,7 +87,7 @@ function Controls (game) {
   mouse.el.click(this, mouse.toggle);
 
   var bug = this.bug = {
-    el: $("<div class='BugButton'>").appendTo(el).click(function (e) {
+    el: $("<div class='BugButton Button'>").appendTo(el).click(function (e) {
       that.reportBug();
     }),
   };
