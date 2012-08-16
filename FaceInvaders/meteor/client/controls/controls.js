@@ -22,7 +22,7 @@ function Controls (game) {
   var that = this;
   var keyboard = this.keyboard = {
     on: false,
-    el: $("<div>").appendTo(toggle).addClass("ToggleKeyboard"),
+    el: $("<div>").appendTo(toggle).addClass("ToggleKeyboard Button"),
     onkeydown: function (e) {
       var player = e.data.game.player;
 
@@ -60,7 +60,7 @@ function Controls (game) {
 
   var mouse = this.mouse = {
     on: false,
-    el: $("<div>").appendTo(toggle).addClass("ToggleMouse"),
+    el: $("<div>").appendTo(toggle).addClass("ToggleMouse Button"),
     onclick: function (e) {
       var player = e.data.game.player;
       player && player.fire();
