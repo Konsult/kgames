@@ -566,12 +566,15 @@ textarea {
 .BugButton {
   .SetArea;
   .Button;
-  bottom: 15px;
-  right: 30px;
+  bottom: 0;
+  right: 15px;
+  padding: 15px;
+
+  box-sizing: content-box;
   width: 30px;
   height: 30px;
 
-  background-image: url('/images/bug.png');
+  background: url('/images/bug.png') center no-repeat;
 }
 
 @toggleSelectionWidth: 57px;
