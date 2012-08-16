@@ -173,10 +173,10 @@ Fleet.prototype.setFormation = function(formation) {
     case "rows":
       var perrow = formation.perrow;
       var colWidth = maxFleetToWorldRatio.width * this.world.w / maxEnemyColumns;
-      this.w = colWidth * perrow;
+      this.w = colWidth * (perrow - 1) + enemyWidth;
       var rows = Math.ceil(this.numAlive / perrow);
       var rowHeight = maxFleetToWorldRatio.height * this.world.h / maxEnemyRows;
-      this.h = rowHeight *  rows;
+      this.h = rowHeight *  (rows - 1) + enemyHeight;
       this.setSize(this.w, this.h);
 
       var that = this;
