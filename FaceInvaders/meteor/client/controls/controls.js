@@ -102,6 +102,9 @@ function Controls (game) {
         doc.off("click");
         doc.off("mousemove");
       }
+
+      e.preventDefault();
+      e.stopPropagation();
     }
   };
   mouse.el.click(this, mouse.toggle);
