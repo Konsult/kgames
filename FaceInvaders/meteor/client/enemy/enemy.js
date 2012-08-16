@@ -61,10 +61,10 @@ Enemy.prototype.loadUser = function(ms) {
   );
 };
 Enemy.prototype.update = function(ms) {
-  var game = this.game;
-  if (!game.contains(this.world, this)) {
-    game.gameOver();
-  }
+  // If we hit the bottom, auto game over!
+  var bottom = this.fleet.y + this.y + this.h;
+  if (bottom >= this.world.h)
+    this.game.gameOver();
 };
 Enemy.prototype.render = function() {
   var now = this.game.time;
@@ -221,7 +221,11 @@ Fleet.prototype.update = function(ms) {
     if (ship.state == "dead") delete ships[id];
   });
 
-  // Update Position
+  // HACK: Ensure we don't fall off the side!
+  var maxX = this.world.w - this.w;
+  this.x = Math.min(maxX, this.x);
+
+  // Take a step, if it's time
   var now = this.game.time;
   var since = now - this.lastStep;
   if (since > this.stepInterval) {
