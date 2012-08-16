@@ -53,10 +53,26 @@ function Game (pel) {
       that.balloon = null;
       that.player.load();
       that.info.el.css("display", "");
-      that.startNextLevel();
 
       // Check if they're a beta user
       that.checkBetaStatus();
+
+      // Add start game balloon button so game doesn't auto-start if already logged in.
+      var center;
+      var balloon = new BalloonButton("Start<br>Game", function (e) {
+        that.effects.createExplosion(center.left, center.top);
+        delete that.world.enemies["StartBalloon"];
+        that.startNextLevel();
+      });
+      that.world.el.append(balloon.el);
+      var left = Math.random() * (that.world.w - balloon.el.outerWidth(true));
+      var top = (that.world.h - balloon.el.outerHeight(true)) / 2;
+      balloon.el.offset({ left: left, top: top, });
+      center = {
+        top: top + balloon.el.height() / 2,
+        left: left + balloon.el.outerWidth(true) / 2,
+      };
+      that.world.enemies["StartBalloon"] = balloon;
     } else {
       that.balloon = new LoginBalloon(fb, that.world);
       that.world.enemies["LoginBalloon"] = that.balloon;
