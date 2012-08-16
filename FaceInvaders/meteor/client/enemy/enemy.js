@@ -1,6 +1,6 @@
 var maxEnemyColumns = 8;
 var maxEnemyRows = 4;
-var maxFleetToWorldRatio = { width: 1, height: 0.75 };
+var maxFleetToWorldRatio = { width: 0.75, height: 0.75 };
 var enemyWidth = 150;
 var enemyHeight = 150;
 var enemyClasses = ["tv", "nom", "cage"];
@@ -216,9 +216,33 @@ Fleet.prototype.update = function(ms) {
     return;
   }
 
-  // Clear Dead Ships
+  // If fleet is too big, make it smaller
+  var tooWide = this.w > this.world.w * maxFleetToWorldRatio.width;
+  var tooTall = this.h > this.world.h * maxFleetToWorldRatio.height;
+  var repositionShip;
+  if (tooWide || tooTall) {
+    var oldWidth = this.w;
+    var oldHeight = this.h;
+    var newWidth = tooWide ? this.world.w * maxFleetToWorldRatio.width : this.w;
+    var newHeight = tooTall ? this.world.h * maxFleetToWorldRatio.height : this.h;
+    this.w = newWidth;
+    this.h = newHeight;
+    repositionShip = function (ship) {
+      var ratioX = ship.x / (oldWidth - enemyWidth);
+      var ratioY = ship.y / (oldHeight - enemyHeight);
+      ship.moveTo(ratioX * (newWidth - enemyWidth), ratioY * (newHeight - enemyHeight));
+    };
+  }
+
   _.each(this.ships, function (ship, id, ships) {
-    if (ship.state == "dead") delete ships[id];
+    // Clear Dead Ships
+    if (ship.state == "dead") {
+      delete ships[id];
+      return;
+    }
+    // Reposition ships if needed.
+    if (tooWide || tooTall)
+      repositionShip(ship);
   });
 
   // HACK: Ensure we don't fall off the side!
@@ -291,8 +315,12 @@ Fleet.prototype.render = function() {
 
   switch (this.state) {
     case "alive":
-      this.el.css("left", this.x+"px");
-      this.el.css("top", this.y+"px");
+      this.el.css({
+        left: this.x + "px",
+        top: this.y + "px",
+        width: this.w + "px",
+        height: this.h + "px"
+      });
       break;
     case "dead":
       break;
