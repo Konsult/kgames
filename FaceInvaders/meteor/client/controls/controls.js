@@ -12,7 +12,11 @@ function Controls (game) {
 
   var toggle = $("<div>");
   toggle.addClass("Toggle");
+  toggle.css("display", "none");
   el.append(toggle);
+
+  // Show mouse/keyboard control toggles when we know there is a mouse about.
+  $(document).one("mousemove", function () { toggle.css("display", ""); });
 
   // Make button clicks work on touch and prevent them from triggering fire.
   $(document).on({
