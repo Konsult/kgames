@@ -42,7 +42,7 @@ body {
 }
 
 .Button {
-  -webkit-user-select: none;
+  user-select: none;
   cursor: pointer;
   text-align: center;
 }
@@ -50,7 +50,8 @@ body {
 .BlueButton {
   .Button;
   box-sizing: content-box;
-  -webkit-border-image: url('/images/button.png') 12 20 12 20;
+  border-image: url('/images/button.png') 12 20 12 20;
+  border-image: url('/images/button.png') 12 20 12 20 fill;
   border-width: 12px 20px 12px 20px;
 
   text-shadow: none;
@@ -79,7 +80,7 @@ body {
 }
 
 .CustomInput {
-  -webkit-appearance: none;
+  appearance: none;
   box-sizing: border-box;
   font-family: 'Architects Daughter', 'Comic Sans MS', 'ChalkboardSE-Regular', sans-serif;
   background-color: transparent;
@@ -91,13 +92,15 @@ body {
 
 input {
   .CustomInput;
-  -webkit-border-image: url('/images/textfield.png') 11 13 11 16;
+  border-image: url('/images/textfield.png') 11 13 11 16;
+  border-image: url('/images/textfield.png') 11 13 11 16 fill;
   border-width: 11px 13px 11px 16px;
 }
 
 textarea {
   .CustomInput;
-  -webkit-border-image: url('/images/textbox.png') 16 13 16 16;
+  border-image: url('/images/textbox.png') 16 13 16 16;
+  border-image: url('/images/textbox.png') 16 13 16 16 fill;
   border-width: 16px 13px 16px 16px;
   padding: 0 10px;
 }
@@ -119,7 +122,8 @@ textarea {
   text-align: left;
 
   box-sizing: border-box;
-  -webkit-border-image: url('/images/dialog.png') 25 16 25 16;
+  border-image: url('/images/dialog.png') 25 16 25 16;
+  border-image: url('/images/dialog.png') 25 16 25 16 fill;
   border-width: 25px 16px 25px 16px;
 
   padding-bottom: @buttonContainerHeight;
@@ -173,9 +177,9 @@ textarea {
 
   @z-index: @z-levelText;
 
-  -webkit-transition-property: top, left;
-  -webkit-transition-duration: 1s;
-  -webkit-transition-timing-function: ease-out;
+  transition-property: top, left;
+  transition-duration: 1s;
+  transition-timing-function: ease-out;
 
   transition-property: top, left;
   transition-duration: 1s;
@@ -204,7 +208,7 @@ textarea {
   font-weight: bold;
   text-align: center;
 
-  -webkit-animation: fadeIn ease-in-out backwards;
+  animation: fadeIn ease-in-out backwards;
 
   .Container {
     .SetArea;
@@ -228,43 +232,43 @@ textarea {
     font-size: 0.5em;
     margin-top: 2 / 0.5em;
 
-    -webkit-animation: fadeInDown ease-in-out backwards;
+    animation: fadeInDown ease-in-out backwards;
 
     // Prevent tearing on border-image tile edges
-    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 
-    -webkit-transition: -webkit-transform 0.15s 0.05s ease-in-out;
+    transition: transform 0.15s 0.05s ease-in-out;
   }
   .Restart:hover {
-    -webkit-transform: translateZ(0) scale(1.1);
+    transform: translateZ(0) scale(1.1);
   }
   .Restart:active {
-    -webkit-transform: translateZ(0);
-    -webkit-transition: none;
+    transform: translateZ(0);
+    transition: none;
   }
 }
 
 .Lose.EndText {
-  background-image: -webkit-radial-gradient(center, 100% 100%, fade(red, 75%), fade(red, 25%));
+  background-image: radial-gradient(center, 100% 100%, fade(red, 75%), fade(red, 25%));
 
   .Left {
-    -webkit-animation: bounceInLeft ease-in-out backwards;
+    animation: bounceInLeft ease-in-out backwards;
   }
   .Right {
-    -webkit-animation: bounceInRight ease-in-out backwards;
+    animation: bounceInRight ease-in-out backwards;
   }
 }
 
-@-webkit-keyframes winRotateIn {
+@keyframes winRotateIn {
   0% {
-    -webkit-transform: scale(5) rotate(-570deg);
+    transform: scale(5) rotate(-570deg);
     opacity: 0;
   }
   90% {
-    -webkit-transform: scale(0.8) rotate(0deg);
+    transform: scale(0.8) rotate(0deg);
   }
   100% {
-    -webkit-transform: none;
+    transform: none;
     opacity: 1;
   }
 }
@@ -273,49 +277,49 @@ textarea {
     overflow: visible;
   }
   .Left {
-    -webkit-animation: winRotateIn ease-in backwards;
+    animation: winRotateIn ease-in backwards;
   }
   .Right {
-    -webkit-animation: winRotateIn ease-in backwards;
+    animation: winRotateIn ease-in backwards;
   }
 }
 
-@-webkit-keyframes victoryDance {
+@keyframes victoryDance {
   0% {
-    -webkit-transform: none;
+    transform: none;
   }
   12.5% {
-    -webkit-transform: rotate(-10deg);
+    transform: rotate(-10deg);
   }
   25% {
-    -webkit-transform: none;
+    transform: none;
   }
   37.5% {
-    -webkit-transform: rotate(-10deg);
+    transform: rotate(-10deg);
   }
   50% {
-    -webkit-transform: none;
+    transform: none;
   }
   62.5% {
-    -webkit-transform: rotate(10deg);
+    transform: rotate(10deg);
   }
   75% {
-    -webkit-transform: none;
+    transform: none;
   }
   87.5% {
-    -webkit-transform: rotate(10deg);
+    transform: rotate(10deg);
   }
   100% {
-    -webkit-transform: none;
+    transform: none;
   }
 }
 .Win .EndText {
   .Left, .Right {
-    -webkit-animation: victoryDance 2.5s linear infinite;
+    animation: victoryDance 2.5s linear infinite;
   }
 }
 
-@-webkit-keyframes sky-color {
+@keyframes sky-color {
   0% {
      background-color:skyblue;
   }
@@ -347,9 +351,9 @@ textarea {
   width: 100%;
   top: 0px;
 
-  -webkit-user-select: none;
+  user-select: none;
 
-  -webkit-animation: sky-color @day-length infinite linear;
+  animation: sky-color @day-length infinite linear;
 
   .Foreground {
     position: absolute;
@@ -364,21 +368,21 @@ textarea {
   }
 }
 
-@-webkit-keyframes day-rotation {
+@keyframes day-rotation {
   0% {
-    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   25% {
-    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
   }
   75% {
-    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
   }
   100% {
-    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
-@-webkit-keyframes day-fade {
+@keyframes day-fade {
   0% {
      opacity: 1;
   }
@@ -406,8 +410,8 @@ textarea {
   top: 10%;
   height: 180%;
 
-  -webkit-transform-origin: center;
-  -webkit-animation: day-rotation @day-length linear infinite;
+  transform-origin: center;
+  animation: day-rotation @day-length linear infinite;
 
   .Sun {
     .SetArea;
@@ -419,7 +423,7 @@ textarea {
     margin-left: -41px;
     top: 20px;
 
-  -webkit-animation: day-fade @day-length infinite linear;
+  animation: day-fade @day-length infinite linear;
   }
 }
 .CloudContainer {
@@ -429,7 +433,7 @@ textarea {
   height: 75%;
   left: -100%;
 
-  -webkit-animation: day-fade @day-length infinite linear;
+  animation: day-fade @day-length infinite linear;
 
   .Cloud {
     .SetArea;
@@ -437,7 +441,7 @@ textarea {
     z-index: @z-cloud;
 
     left: -10%;
-    -webkit-transition: left linear;
+    transition: left linear;
   }
 
   .Bacon1 {
@@ -465,7 +469,7 @@ textarea {
     background-position: -82px -58px;
   }
 }
-@-webkit-keyframes twinkle {
+@keyframes twinkle {
   50% { opacity: 0; }
 }
 .NightContainer {
@@ -474,9 +478,9 @@ textarea {
   width: 100%;
   height: 50%;
 
-  -webkit-transform-origin: bottom;
-  -webkit-transform: rotate(180deg);
-  -webkit-animation: day-fade @day-length @day-length/2 linear infinite;
+  transform-origin: bottom;
+  transform: rotate(180deg);
+  animation: day-fade @day-length @day-length/2 linear infinite;
 
   .Moon {
     .SetArea;
@@ -495,7 +499,7 @@ textarea {
     background-image: url('/images/night.png');
     @z-index: @z-cloud;
 
-    -webkit-animation: twinkle 5s linear infinite;
+    animation: twinkle 5s linear infinite;
   }
   .RedStar {
     .Star;
@@ -555,13 +559,13 @@ textarea {
   max-width: 50%;
 }
 .ControlsPopover:not(.Right) {
-  -webkit-border-image: url('/images/popover.png') 17 14 43 66 stretch;
+  border-image: url('/images/popover.png') 17 14 43 66 fill;
   border-width: 17px 14px 43px 66px;
   padding-right: 52px;
   margin-left: -33px;
 }
 .ControlsPopover.Right {
-  -webkit-border-image: url('/images/popover.png') 17 66 43 14 stretch;
+  border-image: url('/images/popover.png') 17 66 43 14 fill;
   border-width: 17px 66px 43px 14px;
   padding-left: 52px;
   margin-right: -33px;
@@ -651,7 +655,7 @@ textarea {
   color: white;
   font-size: 150%;
 
-  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
   transform: translateZ(0);
   z-index: 100;
 }
@@ -722,7 +726,7 @@ textarea {
     bottom: 0;
     right: 0;
 
-    -webkit-transform-origin: bottom;
+    transform-origin: bottom;
    background-image: url("/images/player.png");
   }
 
@@ -736,7 +740,7 @@ textarea {
     z-index: @z-unit-body + 1;
 
     .wheel {
-      -webkit-animation: 0.5s linear infinite;
+      animation: 0.5s linear infinite;
     }
     .wheel:first-child {
       float: left;
@@ -744,7 +748,7 @@ textarea {
       background-position: -297px 0;
       width: 20px;
       height: 18px;
-      -webkit-transform-origin: 12px 10px;
+      transform-origin: 12px 10px;
     }
     .wheel:last-child {
       float: right;
@@ -752,7 +756,7 @@ textarea {
       background-position: -297px -19px;
       width: 21px;
       height: 20px;
-      -webkit-transform-origin: 11px 10px;
+      transform-origin: 11px 10px;
     }
   }
 }
@@ -792,42 +796,42 @@ textarea {
   }
 }
 
-@-webkit-keyframes rotateCCW {
+@keyframes rotateCCW {
   0% {
-    -webkit-transform: rotate(0);
+    transform: rotate(0);
   }
   50% {
-    -webkit-transform: rotate(-180deg);
+    transform: rotate(-180deg);
   }
   100% {
-    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg);
   }
 }
 .Player.Move .wheel {
-  -webkit-animation-name: rotateCCW;
+  animation-name: rotateCCW;
 }
 
-@-webkit-keyframes fire {
+@keyframes fire {
   0% {
-    -webkit-transform: none;
+    transform: none;
   }
   60% {
-    -webkit-transform: scale(1.1, 0.9);
+    transform: scale(1.1, 0.9);
   }
   85% {
-    -webkit-transform: scale(0.9, 1.1);
+    transform: scale(0.9, 1.1);
   }
   100% {
-    -webkit-transform: none;
+    transform: none;
   }
 }
 .Player.Fire {
   .Body {
-    -webkit-animation: fire 0.15s ease-in;
+    animation: fire 0.15s ease-in;
   }
 }
 
-@-webkit-keyframes enemy-fly {
+@keyframes enemy-fly {
   0% {
     background-position-y: 0;
   }
@@ -839,9 +843,9 @@ textarea {
   width: 150px;
   height: 150px;
 
-  -webkit-transition-property: top, left, height, width;
-  -webkit-transition-duration: 1.0s;
-  -webkit-transition-timing-function: linear;
+  transition-property: top, left, height, width;
+  transition-duration: 1.0s;
+  transition-timing-function: linear;
 
   .Face {
     position: absolute;
@@ -853,7 +857,7 @@ textarea {
     width: 100%;
     height: 100%;
     background-image: url('/images/invader.png');
-    -webkit-animation: enemy-fly 1s infinite step-end;
+    animation: enemy-fly 1s infinite step-end;
   }
 }
 .Enemy.tv {
@@ -889,7 +893,7 @@ textarea {
 }
 
 .Lose .Enemy {
-  -webkit-animation: tada 1s infinite;
+  animation: tada 1s infinite;
 }
 
 .Group {
@@ -921,7 +925,7 @@ textarea {
   opacity: 0;
 }
 
-@-webkit-keyframes explosion {
+@keyframes explosion {
   0% {
     background-position: 0 top;
   }
@@ -941,7 +945,7 @@ textarea {
 
 .Explosion {
   background-image: url('/images/explosion.png');
-  -webkit-animation: explosion 0.5s step-start infinite;
+  animation: explosion 0.5s step-start infinite;
 
   position: absolute;
   z-index: @z-explosion;
@@ -952,31 +956,32 @@ textarea {
   margin-top: -75px;
 }
 
-@-webkit-keyframes balloon {
+@keyframes balloon {
   0% {
-    -webkit-transform: translateY(0);
+    transform: translateY(0);
     border-bottom-width: 295px;
   }
   25% {
-    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
     border-bottom-width: 280px;
   }
   50% {
-    -webkit-transform: translateY(0);
+    transform: translateY(0);
   }
   75% {
-    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
     border-bottom-width: 311px;
   }
   100% {
-    -webkit-transform: translateY(0);
+    transform: translateY(0);
     border-bottom-width: 295px;
   }
 }
 
 .BalloonButton {
   box-sizing: content-box;
-  -webkit-border-image: url('/images/balloon.png') 0 0 311 0 stretch;
+  border-image: url('/images/balloon.png') 0 0 311 0;
+  border-image: url('/images/balloon.png') 0 0 311 0 fill;
   border-width: 0 0 311px 0;
 
   width: 160px;
@@ -989,8 +994,8 @@ textarea {
   text-align: center;
   font-size: 24px;
 
-  -webkit-transform-origin: top;
-  -webkit-animation: balloon 6s infinite alternate linear;
+  transform-origin: top;
+  animation: balloon 6s infinite alternate linear;
 }
 
 .Tooltip {
