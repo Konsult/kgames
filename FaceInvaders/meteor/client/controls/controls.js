@@ -128,18 +128,17 @@ function Controls (game) {
   mouse.el.click();
 
   // Some Primitive-ass Touch Event Handlers
-  $(document).bind("touchstart", this, function (e) {
-    e.preventDefault();
+  $(document).on("touchstart", this, function (e) {
     var game = e.data.game;
     game.lastTouchStart = (new Date()).getTime();
   });
-  $(document).bind("touchmove", this, function (e) {
+  $(document).on("touchmove", this, function (e) {
     e.preventDefault();
     var player = e.data.game.player;
     var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
     player && player.goto(touch.pageX);
   });
-  $(document).bind("touchend", this, function (e) {
+  $(document).on("touchend", this, function (e) {
     e.preventDefault();
     var game = e.data.game;
     var player = game.player;
@@ -148,7 +147,7 @@ function Controls (game) {
   });
 
   // Universal game controls
-  $(document).bind("keypress", this, function (e) {
+  $(document).on("keypress", this, function (e) {
     // Pressing p pauses the game
     if (e.which == 112)
       e.data.game.togglePause();
