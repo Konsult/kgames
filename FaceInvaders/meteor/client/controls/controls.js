@@ -165,6 +165,8 @@ function Controls (game) {
         timedMove = null;
       }
     }
+    if (!e.originalEvent.touches.length)
+      player && player.stop();
   });
 
   // Universal game controls
