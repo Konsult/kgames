@@ -118,10 +118,10 @@ Player.prototype.render = function () {
       if (this.x == this.tx)
         this.el.removeClass("Move");
       else if (this.x < this.tx) {
-        this.el.css({"-webkit-transform": "rotateY(180deg)"});
+        this.el.css(Modernizr.prefixedCss("transform"), "rotateY(180deg)");
         this.el.addClass("Move");
       } else {
-        this.el.css({"-webkit-transform": ""});
+        this.el.css(Modernizr.prefixedCss("transform"), "");
         this.el.addClass("Move");
       }
       break;

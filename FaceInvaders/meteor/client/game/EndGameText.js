@@ -27,18 +27,17 @@ function createEndGameText (game, leftText, rightText, animationCallback) {
   endText.addClass(state);
   endText.append(container);
 
+  var animationDuration = Modernizr.prefixedCss("animationDuration");
+  var animationDelay = Modernizr.prefixedCss("animationDelay");
+
   function queueAnimation(el, duration, delay) {
-    el.css({
-      "-webkit-animation-duration": duration + "s",
-      "-webkit-animation-delay": delay + "s",
-    });
+    el.css(animationDuration, duration + "s");
+    el.css(animationDelay, delay + "s");
     return duration + delay;
   }
   function dequeueAnimation(el) {
-    el.css({
-      "-webkit-animation-duration": "",
-      "-webkit-animation-delay": "",
-    });
+    el.css(animationDuration, "");
+    el.css(animationDelay, "");
   };
 
   var delay = queueAnimation(endText, endGameTextAnimationDurations[state].EndText, 0);

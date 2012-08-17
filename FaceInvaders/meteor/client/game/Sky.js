@@ -13,8 +13,8 @@ function createCloud (pel, delay) {
     el.css({
       "left": "100%",
       "top": Math.floor(Math.random() * 100) - 10 + "%",
-      "-webkit-transition-duration": duration / 1000 + "s",
     });
+    el.css(Modernizr.prefixedCss("transitionDuration"), duration / 1000 + "s");
 
     setTimeout(function () {
       el.remove();
@@ -35,8 +35,8 @@ function createNightSky (container, numberOfStars) {
     star.css({
       left: Math.floor(Math.random() * 100) -10 + "%",
       top: Math.floor(Math.random() * 75) + "%",
-      "-webkit-animation-delay": Math.random() * twinkleDuration + "s",
     });
+    star.css(Modernizr.prefixedCss("animationDelay"), Math.random() * twinkleDuration + "s");
     sky.append(star);
   }
 
