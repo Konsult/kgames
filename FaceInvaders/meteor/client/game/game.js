@@ -112,8 +112,6 @@ Game.prototype.update = function (ms) {
   this.info.update(ms);
 };
 Game.prototype.togglePause = function () {
-  if (!this.inplay)
-    return;
   this.pause = !this.pause;
 
   if (this.pause && !this.pauseOverlay) {

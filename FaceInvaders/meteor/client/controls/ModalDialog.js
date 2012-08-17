@@ -14,7 +14,7 @@ function ModalDialog (container,cancelButtonText, dismissedCallback) {
   this.buttons = [];
 
   if (!container)
-    container = $(document);
+    container = $(document.body);
   container.append(this.el);
   return this;
 };
