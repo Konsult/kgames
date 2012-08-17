@@ -88,8 +88,10 @@ Player.prototype.reset = function () {
 Player.prototype.update = function (ms) {
   // HACK: Adjust target to keep player on screen after resize
   var maxX = this.world.w - this.w;
-  if (this.tx > maxX) this.x = this.tx = maxX;
-  if (this.tx < 0) this.x = this.tx = 0;
+  if (this.tx > maxX)this.tx = maxX;
+  if (this.x > maxX) this.x = maxX;
+  if (this.tx < 0) this.tx = 0;
+  if (this.x < 0) this.x = 0;
 
   // If we're currently at our target, stop moving!
   if (this.x == this.tx) return;
