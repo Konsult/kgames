@@ -26,6 +26,10 @@ function Game (pel) {
   var el = this.el = $("<div>");
   this.pel = pel.append(el);
 
+  // Create debug console
+  this.debugDisplay = new DebugDisplay();
+  this.el.append(this.debugDisplay.el);
+
   // Create Game World
   var world = this.world = new World(this);
   var player = this.player = new Player(this);

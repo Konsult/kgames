@@ -62,6 +62,8 @@ function Controls (game) {
         player.goLeft();
       if (e.which == 39 && player)
         player.goRight();
+      if (e.which == 68 && e.originalEvent.shiftKey)
+        e.data.game.debugDisplay.toggle();
     },
     onkeyup: function (e) {
       var player = e.data.game.player;
