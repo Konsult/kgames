@@ -15,8 +15,10 @@ function Controls (game) {
   toggle.css("display", "none");
   el.append(toggle);
 
+  var doc = $(document);
+
   // Show mouse/keyboard control toggles when we know there is a mouse about.
-  $(document).one("mousemove", function (e) {
+  doc.one("mousemove", function (e) {
     // iOS sends mousemoves on input elements.
     var tag = e.target.tagName;
     if (tag === "TEXTAREA" || tag === "INPUT")
@@ -25,7 +27,7 @@ function Controls (game) {
   });
 
   // Make button clicks work on touch and prevent them from triggering fire.
-  $(document).on({
+  doc.on({
     click: function (e) {
       e.stopPropagation();
     },
@@ -49,6 +51,17 @@ function Controls (game) {
     },
   }, ".Button");
 
+  // Always enable all ways to toggle the debug display.
+  doc.on({
+    keydown: function (e) {
+      if (e.which == 68 && e.originalEvent.shiftKey) {
+        e.data.game.debugDisplay.toggle();
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    },
+  }, null, this);
+
   var that = this;
   var keyboard = this.keyboard = {
     on: false,
@@ -62,8 +75,6 @@ function Controls (game) {
         player.goLeft();
       if (e.which == 39 && player)
         player.goRight();
-      if (e.which == 68 && e.originalEvent.shiftKey)
-        e.data.game.debugDisplay.toggle();
     },
     onkeyup: function (e) {
       var player = e.data.game.player;
@@ -83,8 +94,8 @@ function Controls (game) {
         doc.keydown(e.data, me.onkeydown);
         doc.keyup(e.data, me.onkeyup);
       } else {
-        doc.off("keydown");
-        doc.off("keyup");
+        doc.off("keydown", me.onkeydown);
+        doc.off("keyup", me.onkeydown);
       }
     }
   };
