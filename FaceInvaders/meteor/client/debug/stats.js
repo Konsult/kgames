@@ -44,7 +44,8 @@
       var stat = entry.stats[statID];
       if (!stat.recording) continue;
 
-      var val = curr.time - prev.time;
+      var ms = (curr.time - prev.time);
+      var val = (ms == 0) ? 0 : 1000/ms;
       this.compute(stat, {val:val});
     }
   };
