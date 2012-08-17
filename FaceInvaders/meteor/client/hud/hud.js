@@ -16,7 +16,7 @@ function InfoOverlay (game) {
   el.append(lives);
 };
 InfoOverlay.prototype.update = function (ms) {
-  this.score[0].innerHTML = "Score: "+this.game.score;
+  this.score[0].innerHTML = "Koin: "+this.game.score;
 
   var lifeCount = this.game.player.lives;
   if (lifeCount === 0) {
