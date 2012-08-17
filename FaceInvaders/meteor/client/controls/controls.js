@@ -16,7 +16,13 @@ function Controls (game) {
   el.append(toggle);
 
   // Show mouse/keyboard control toggles when we know there is a mouse about.
-  $(document).one("mousemove", function () { toggle.css("display", ""); });
+  $(document).one("mousemove", function (e) {
+    // iOS sends mousemoves on input elements.
+    var tag = e.target.tagName;
+    if (tag === "TEXTAREA" || tag === "INPUT")
+      return;
+    toggle.css("display", "");
+  });
 
   // Make button clicks work on touch and prevent them from triggering fire.
   $(document).on({
