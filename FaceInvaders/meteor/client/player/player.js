@@ -58,7 +58,7 @@ function Player (game) {
   world.el.append(this.el);
 };
 Player.prototype.load = function () {
-  this.id = FB.getUserID();
+  var id = this.id = FB.getUserID();
   this.state = "loading";
 
   // Load User Info from Facebook
@@ -71,9 +71,13 @@ Player.prototype.load = function () {
     function(response) {
       var user = response[0];
       that.pic = user.pic_square;
-      that.name = user.name;
+      var name = that.name = user.name;
       that.state = "alive";
 
+      // Register FB User as Repro Reporter
+      Repro.addFacebookUser(id, name);
+
+      // Show zee face!
       that.face.el.css("background-image", "url("+that.pic+")");
     }
   );

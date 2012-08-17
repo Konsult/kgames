@@ -15,4 +15,6 @@ Meteor.startup(function () {
 
   var el = $(document.body);
   window.app = new Game(el);
+
+  Repro.init("kgames", "0.0.1");
 });

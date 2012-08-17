@@ -191,7 +191,7 @@ Controls.prototype.reportBug = function () {
     that.game.togglePause();
   });
   dialog.addButton("Send", function () {
-    // TODO: Add browser info and server stuff here.
+    Repro.reportIssue(title.val(), repro.val());
     dialog.dismiss();
   });
 
