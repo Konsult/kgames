@@ -60,6 +60,44 @@ function Controls (game) {
         e.stopImmediatePropagation();
       }
     },
+    touchstart: function (e) {
+      if (e.originalEvent.touches.length === 4) {
+        // If each touch is in a corner, then toggle the debug menu
+        var win = $(window);
+        var w = win.width();
+        var h = win.height();
+        var top = h * 0.25;
+        var bottom = h - top;
+        var left = w * 0.25;
+        var right = w - left; 
+        function whichCorner(pageX, pageY) {
+          if (pageX < left) {
+            if (pageY < top)
+              return 0;
+            if (pageY > bottom)
+              return 2;
+          } else if (pageX > right) {
+            if (pageY < top)
+              return 1;
+            if (pageY > bottom)
+              return 3;
+          }
+          return 4;
+        }
+        var corners = [false, false, false, false, true];
+        var touches = e.originalEvent.touches;
+        for (var i in touches) {
+          var touch = touches[i];
+          var corner = whichCorner(touch.pageX, touch.pageY);
+          corners[corner] = true;
+        }
+        if (corners[0] && corners[1] && corners[2] && corners[3]) {
+          e.data.game.debugDisplay.toggle();
+          e.preventDefault();
+          e.stopImmediatePropagation();
+        }
+      }
+    }
   }, null, this);
 
   var that = this;
@@ -150,7 +188,7 @@ function Controls (game) {
   var fireTimeout = 250;
   var timedMove = null;
 
-  $(document).on("touchstart", this, function (e) {
+  doc.on("touchstart", this, function (e) {
     var game = e.data.game;
     game.lastTouchStart = (new Date()).getTime();
     var player = e.data.game.player;
@@ -160,13 +198,13 @@ function Controls (game) {
       timedMove = null;     
     }, fireTimeout);
   });
-  $(document).on("touchmove", this, function (e) {
+  doc.on("touchmove", this, function (e) {
     e.preventDefault();
     var player = e.data.game.player;
     var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
     player && player.goto(touch.pageX);
   });
-  $(document).on("touchend", this, function (e) {
+  doc.on("touchend", this, function (e) {
     e.preventDefault();
     var game = e.data.game;
     var player = game.player;
