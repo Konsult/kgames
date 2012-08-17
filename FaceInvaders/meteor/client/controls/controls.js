@@ -128,9 +128,18 @@ function Controls (game) {
   mouse.el.click();
 
   // Some Primitive-ass Touch Event Handlers
+  var fireTimeout = 250;
+  var timedMove = null;
+
   $(document).on("touchstart", this, function (e) {
     var game = e.data.game;
     game.lastTouchStart = (new Date()).getTime();
+    var player = e.data.game.player;
+    var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+    timedMove = setTimeout(function () {
+      player && player.goto(touch.pageX); 
+      timedMove = null;     
+    }, fireTimeout);
   });
   $(document).on("touchmove", this, function (e) {
     e.preventDefault();
@@ -143,7 +152,13 @@ function Controls (game) {
     var game = e.data.game;
     var player = game.player;
     var since = (new Date()).getTime() - game.lastTouchStart;
-    if (since < 500) player && player.fire();
+    if (since < fireTimeout) {
+      player && player.fire();
+      if (timedMove) {
+        clearTimeout(timedMove);
+        timedMove = null;
+      }
+    }
   });
 
   // Universal game controls
