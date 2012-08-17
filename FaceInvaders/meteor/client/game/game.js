@@ -87,14 +87,25 @@ function Game (pel) {
 };
 Game.prototype.launch = function () {
   var that = this;
-  that.launchTime = that.time = (new Date()).getTime();
+  that.time = (new Date()).getTime();
+
+  // Set up Stats
+  Stats.addScalar("launchTime", that.time);
+  Stats.addEventSeries("frame");
 
   function loop () {
+    // Kick of next loop
     that.raf = window.requestAnimationFrame(loop);
+
+    // Set up time for this loop
     var now = (new Date()).getTime();
     var ms = now - that.time;
     that.time = now;
 
+    // Update Stats
+    Stats.recordEvent("frame");
+
+    // Update everything
     that.update(ms);
     that.render();
   };
