@@ -179,7 +179,7 @@ Game.prototype.startNextLevel = function () {
 
   function onlevelload (error, result) {
     if (error) {
-      alert("Failed to load level. Please let us@konsu.lt know, thanks!");
+      alert("Failed to load level. Please report this problem by clicking the report bug button on the bottom right, thanks!");
       return;
     }
     if (!result) {
