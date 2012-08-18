@@ -22,7 +22,7 @@
       stats: {
         eps: {
           type: "ewma",
-          alpha: 0.10,
+          alpha: 0.01,
           val: 0,
           recording: true
         }
