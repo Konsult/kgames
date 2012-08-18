@@ -54,7 +54,8 @@ function Controls (game) {
   // Always enable all ways to toggle the debug display.
   doc.on({
     keydown: function (e) {
-      if (e.which == 68 && e.originalEvent.shiftKey) {
+      // Toggle display console on ctrl-d
+      if (e.which == 68 && e.originalEvent.ctrlKey) {
         e.data.game.debugDisplay.toggle();
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -221,9 +222,9 @@ function Controls (game) {
   });
 
   // Universal game controls
-  $(document).on("keypress", this, function (e) {
-    // Pressing p pauses the game
-    if (e.which == 112)
+  $(document).on("keydown", this, function (e) {
+    // Pressing ctrl-p pauses the game
+    if (e.which == 80 && e.originalEvent.ctrlKey)
       e.data.game.togglePause();
   });
 };
