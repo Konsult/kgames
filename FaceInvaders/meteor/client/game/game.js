@@ -251,7 +251,7 @@ Game.prototype.checkBetaStatus = function () {
   var user = FB.getUserID();
   Meteor.call("IsBetaUser", user, function (e, r) {
     if (!e && !r)
-      alert("Sorry, it appears that you're not currently on the beta users list. Please let us@konsu.lt know if you want to get on the list, thanks!");
+      console.log("You're not currently on the beta users list. If you wanna be super legit and be on our list, let us@konsu.lt know, thanks!");
   });
 };
 // If A and B collide
