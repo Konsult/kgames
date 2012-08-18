@@ -34,6 +34,7 @@ Meteor.methods({
     url += "client_id="+FB_APP_ID;
 
     // Tell Facebook to come back here
+    origin = origin || "http://games.konsu.lt";
     var redirect = origin + "/redirect/fb";
     url += "&redirect_uri="+redirect;
 
