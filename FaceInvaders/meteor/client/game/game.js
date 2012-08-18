@@ -110,6 +110,24 @@ Game.prototype.launch = function () {
     that.render();
   };
   loop();
+
+  // Show splash alert box.
+  this.togglePause();
+  var that = this;
+  var dialog = new ModalDialog(this.el, "Play!", function () {
+    that.togglePause();
+  });
+  dialog.el.css("text-align", "center");
+  var title = $("<div>Welcome to Face Invaders <span style='font-size: 0.8em'>(Beta)</span></div>");
+  title.css({
+    "font-size": "1.5em",
+  });
+  dialog.el.append(title);
+  var body = $("<div>");
+  body.append("<div>Please report any problems with the bug button on the bottom right.");
+  body.append("<div style='margin-top: 1em; font-size: 0.8em'>Made for desktop and mobile devices. &copy; Konsult 2012");
+  dialog.el.append(body);
+
 };
 Game.prototype.update = function (ms) {
   if (this.pause)
